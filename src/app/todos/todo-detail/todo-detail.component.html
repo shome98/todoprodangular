@@ -1,1 +1,8 @@
 <p>todo-detail works!</p>
+<div *ngIf="todo">
+    <h2>Todo Details</h2>
+    <div>ID: {{todo.id}}</div>
+    <div>Title: {{todo.title}}</div>
+    <div>Completed: {{todo.completed}}</div>
+    <button (click)="goBack()">Back</button>
+</div>
