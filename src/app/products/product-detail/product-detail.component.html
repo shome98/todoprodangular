@@ -1,1 +1,10 @@
 <p>product-detail works!</p>
+<div *ngIf="product">
+    <h2>Product Details</h2>
+    <div>ID: {{ product.id }}</div>
+    <div>Title: {{ product.title }}</div>
+    <div>Price: ${{ product.price }}</div>
+    <div>Description: {{ product.description }}</div>
+    <img [src]="product.image" alt="{{ product.title }}" style="max-width: 150px; max-height: 150px;">
+    <button (click)="goBack()">Back</button>
+</div>
