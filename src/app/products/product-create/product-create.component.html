@@ -1,1 +1,37 @@
 <p>product-create works!</p>
+<h2>Add New Product</h2>
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div>
+        <label for="title">Title:</label>
+        <input type="text" id="title" formControlName="title" required>
+        <div
+            *ngIf="productForm.controls['title'].invalid && (productForm.controls['title'].dirty || productForm.controls['title'].touched)">
+            <div *ngIf="productForm.controls['title'].errors?.['required']">
+                Title is required.
+            </div>
+        </div>
+    </div>
+    <div>
+        <label for="price">Price:</label>
+        <input type="number" id="price" formControlName="price" required>
+        <div
+            *ngIf="productForm.controls['price'].invalid && (productForm.controls['price'].dirty || productForm.controls['price'].touched)">
+            <div *ngIf="productForm.controls['price'].errors?.['required']">
+                Price is required.
+            </div>
+            <div *ngIf="productForm.controls['price'].errors?.['min']">
+                Price must be at least 0.
+            </div>
+        </div>
+    </div>
+    <div>
+        <label for="description">Description:</label>
+        <textarea id="description" formControlName="description"></textarea>
+    </div>
+    <div>
+        <label for="image">Image URL:</label>
+        <input type="text" id="image" formControlName="image">
+    </div>
+    <button type="submit" [disabled]="productForm.invalid">Create</button>
+    <button type="button" (click)="goBack()">Cancel</button>
+</form>
