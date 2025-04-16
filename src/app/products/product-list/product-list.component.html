@@ -1,1 +1,12 @@
 <p>product-list works!</p>
+<h2>Products</h2>
+<ul>
+    <li *ngFor="let product of products">
+        {{ product.title }} - ${{ product.price }}
+        <img [src]="product.image" alt="{{ product.title }}" style="max-width: 50px; max-height: 50px;">
+        <button (click)="viewProduct(product.id)">View</button>
+        <button (click)="editProduct(product.id)">Edit</button>
+        <button (click)="deleteProduct(product.id)">Delete</button>
+    </li>
+</ul>
+<button routerLink="/products/create">Add New Product</button>
