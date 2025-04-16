@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class ProductService {
   private apiUrl = 'https://fakestoreapi.com/products';
   private productsSubject = new BehaviorSubject<Product[]>([]);
-  public products = this.productsSubject.asObservable();
+  public products$ = this.productsSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.loadInitialProducts(); 
@@ -22,7 +22,7 @@ export class ProductService {
   }
 
   getAllProducts(): Observable<Product[]> {
-    return this.products; 
+    return this.products$; 
   }
 
   getProductById(id: number): Observable<Product> {

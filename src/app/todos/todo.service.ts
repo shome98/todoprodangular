@@ -9,7 +9,7 @@ import { Todo } from './todo.model';
 export class TodoService {
 
   private todosSubject = new BehaviorSubject<Todo[]>([]);
-  public todos = this.todosSubject.asObservable();
+  public todos$ = this.todosSubject.asObservable();
   constructor(private http: HttpClient) {
     this.loadInitialTodos();
    }
@@ -23,7 +23,7 @@ export class TodoService {
   }
 
   getAllTodos(): Observable<Todo[]> {
-    return this.todos; 
+    return this.todos$; 
   }
 
   getTodoById(id: number): Observable<Todo> {
