@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ProductService } from '../product.service';
 import { Router } from '@angular/router';
 import { Product } from '../product.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -10,20 +11,14 @@ import { Product } from '../product.model';
   styleUrl: './product-list.component.scss'
 })
 export class ProductListComponent {
-  products: Product[] = [];
+  products$: Observable<Product[]>;
 
-  constructor(private productService: ProductService, private router: Router) {}
-
-  ngOnInit(): void {
-    this.loadProducts();
-  }
-
-  loadProducts(): void {
-    this.productService.getAllProducts().subscribe((products) => (this.products = products));
+  constructor(private productService: ProductService, private router: Router) {
+    this.products$ = this.productService.getAllProducts(); 
   }
 
   deleteProduct(id: number): void {
-    this.productService.deleteProduct(id).subscribe(() => this.loadProducts());
+    this.productService.deleteProduct(id).subscribe();
   }
 
   viewProduct(id: number): void {
