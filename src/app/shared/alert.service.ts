@@ -6,4 +6,7 @@ import { Injectable } from '@angular/core';
 export class AlertService {
 
   constructor() { }
+  showAlert(message: string): void {
+    alert(message);
+  }
 }
