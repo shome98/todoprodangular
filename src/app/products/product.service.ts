@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Product } from './product.model';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { AlertService } from '../shared/alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class ProductService {
   private productsSubject = new BehaviorSubject<Product[]>([]);
   public products$ = this.productsSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private alertService:AlertService) {
     this.loadInitialProducts(); 
   }
 
@@ -34,6 +35,7 @@ export class ProductService {
       tap((newProduct) => {
         const currentProducts = this.productsSubject.getValue();
         this.productsSubject.next([...currentProducts, { ...newProduct, id: Date.now() }]);
+        this.alertService.showAlert('Product created successfully!');
       })
     );
   }
@@ -44,6 +46,7 @@ export class ProductService {
         const currentProducts = this.productsSubject.getValue();
         const updatedProducts = currentProducts.map((p) => (p.id === id ? { ...p, ...updatedProduct } : p));
         this.productsSubject.next(updatedProducts);
+        this.alertService.showAlert('Product updated successfully!');
       })
     );
   }
@@ -54,6 +57,7 @@ export class ProductService {
         const currentProducts = this.productsSubject.getValue();
         const updatedProducts = currentProducts.filter((product) => product.id !== id);
         this.productsSubject.next(updatedProducts);
+        this.alertService.showAlert('Product deleted successfully!');
       })
     );
   }

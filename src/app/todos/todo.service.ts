@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Todo } from './todo.model';
+import { AlertService } from '../shared/alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class TodoService {
 
   private todosSubject = new BehaviorSubject<Todo[]>([]);
   public todos$ = this.todosSubject.asObservable();
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private alertService:AlertService) {
     this.loadInitialTodos();
    }
 
@@ -35,6 +36,7 @@ export class TodoService {
       tap((newTodo) => {
         const currentTodos = this.todosSubject.getValue();
         this.todosSubject.next([...currentTodos, { ...newTodo, id: Date.now() }]);
+        this.alertService.showAlert('Todo created successfully!');
       })
     );
   }
@@ -45,6 +47,7 @@ export class TodoService {
         const currentTodos = this.todosSubject.getValue();
         const updatedTodos = currentTodos.map((t) => (t.id === id ? { ...t, ...updatedTodo } : t));
         this.todosSubject.next(updatedTodos);
+        this.alertService.showAlert('Todo updated successfully!');
       })
     );
   }
@@ -55,6 +58,7 @@ export class TodoService {
         const currentTodos = this.todosSubject.getValue();
         const updatedTodos = currentTodos.filter((todo) => todo.id !== id);
         this.todosSubject.next(updatedTodos);
+        this.alertService.showAlert('Todo deleted successfully!');
       })
     );
   }
